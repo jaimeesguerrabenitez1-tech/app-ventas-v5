@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventas V5</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      color: #222;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: auto;
+      min-height: 100vh;
+      background: white;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 24px;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      font-size: 19px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #111827;
+      color: white;
+    }
+
+    button:active {
+      transform: scale(.98);
+    }
+
+    .option {
+      background: #f3f4f6;
+      color: #111827;
+      margin-top: 8px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .sale {
+      border-top: 1px solid #ddd;
+      padding: 12px 0;
+    }
+
+    .sale:first-child {
+      border-top: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header>
+    <h1>📱 Ventas V5</h1>
+    <p>Registro de ventas</p>
+  </header>
+
+  <div class="content">
+
+    <div class="card">
+      <h2>¿Qué quieres registrar?</h2>
+
+      <button onclick="mostrar('protector')">
+        🛡️ Protector
+      </button>
+
+      <button onclick="mostrar('funda')">
+        📱 Funda
+      </button>
+    </div>
+
+    <div id="protector" class="card hidden">
+      <h2>Tipo de protector</h2>
+
+      <button class="option" onclick="registrar('Protector blindado')">
+        Blindado
+      </button>
+
+      <button class="option" onclick="registrar('Protector anti-espía')">
+        Anti-espía
+      </button>
+    </div>
+
+    <div id="funda" class="card hidden">
+      <h2>Tipo de funda</h2>
+
+      <button class="option" onclick="registrar('Funda básica')">
+        Básica
+      </button>
+
+      <button class="option" onclick="registrar('Funda de silicona')">
+        Silicona
+      </button>
+
+      <button class="option" onclick="registrar('Funda con apoyador')">
+        Con apoyador
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>📊 Últimas ventas</h2>
+
+      <div id="ventas">
+        No hay ventas registradas.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let ventas = [];
+
+function mostrar(tipo) {
+
+  document.getElementById("protector").classList.add("hidden");
+  document.getElementById("funda").classList.add("hidden");
+
+  document.getElementById(tipo).classList.remove("hidden");
+}
+
+function registrar(producto) {
+
+  ventas.push({
+    producto: producto,
+    fecha: new Date().toLocaleString()
+  });
+
+  actualizarVentas();
+
+  alert("Venta registrada ✅");
+}
+
+function actualizarVentas() {
+
+  const contenedor = document.getElementById("ventas");
+
+  if (ventas.length === 0) {
+    contenedor.innerHTML = "No hay ventas registradas.";
+    return;
+  }
+
+  contenedor.innerHTML = "";
+
+  ventas.slice().reverse().forEach((venta) => {
+
+    const div = document.createElement("div");
+
+    div.className = "sale";
+
+    div.innerHTML = `
+      <strong>${venta.producto}</strong>
+      <br>
+      <small>${venta.fecha}</small>
+    `;
+
+    contenedor.appendChild(div);
+  });
+}
+
+</script>
+
+</body>
+</html>
